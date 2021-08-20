@@ -6,7 +6,6 @@ loop = asyncio.new_event_loop()
 database = PooledPostgresqlDatabase('PTO_YONVOS' , user = "postgres" , password = "ros1337ini" , host="localhost" , port = 5432 , max_connections=20)
 objects = Manager(database = database , loop=loop)
 
-
 class BaseModel(Model):
     class Meta:
         database = database

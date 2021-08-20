@@ -2,7 +2,7 @@ from typing import List
 from .. import models
 from pydantic import BaseModel
 
-class CreateT(BaseModel):
+class CreateT:
     oui : str
 async def create( dto : CreateT) -> models.OUI:
     return await models.objects.create( models.OUI , oui = dto.oui )

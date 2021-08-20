@@ -1,5 +1,6 @@
+from json import load
 from fastapi import FastAPI 
-from .model_handers import BilboardInfo
+from .model_handers import BilboardInfo , Vendor
 app = FastAPI()
 
 

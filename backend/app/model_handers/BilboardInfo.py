@@ -4,7 +4,7 @@ from . import Vendor
 from pydantic import BaseModel
 
 
-class CreateT(BaseModel):
+class CreateT:
     mac  : str
     timestamp :  str
 async def create( dto : CreateT) -> models.BilboardInfo:
