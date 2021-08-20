@@ -11,16 +11,6 @@ class BaseModel(Model):
     class Meta:
         database = database
 
-
-class BilboardInfo(BaseModel):
-    id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
-    mac = CharField(null = False , unique=False,  max_length=18  , column_name = "mac" , verbose_name = "mac")
-    timestamp = DateTimeField(null = False , unique=False, column_name = "timestamp" , verbose_name = "Timestamp")
-
-    class Meta:
-        table_name = "bilboard_info"
-
-
 class Vendor(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
     name = CharField(null = False , unique=False,  max_length=128  , column_name = "vendor_name" , verbose_name = "vendor_name")
@@ -28,6 +18,15 @@ class Vendor(BaseModel):
 
     class Meta:
         table_name = "vendor"
+
+class BilboardInfo(BaseModel):
+    id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
+    mac = CharField(null = False , unique=False,  max_length=18  , column_name = "mac" , verbose_name = "mac")
+    timestamp = DateTimeField(null = False , unique=False, column_name = "timestamp" , verbose_name = "Timestamp")
+    vendor = ForeignKeyField(Vendor , backref="catched_devices")
+
+    class Meta:
+        table_name = "bilboard_info"
 
 class ActivityType(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
