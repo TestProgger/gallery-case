@@ -18,7 +18,6 @@ class BaseModel(Model):
 class Vendor(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
     name = CharField(null = False , unique=False,  max_length=128  , column_name = "vendor_name" , verbose_name = "vendor_name")
-    oui = CharField(null = False , unique=False,  max_length=10  , column_name = "vendor_oui" , verbose_name = "vendor_oui")
 
     class Meta:
         table_name = "vendor"
@@ -40,9 +39,15 @@ class ActivityType(BaseModel):
         table_name = "activity_type"
 
 
+class OUI(BaseModel):
+    id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
+    oui = CharField(null = False , unique=False,  max_length=10  , column_name = "oui" , verbose_name = "oui")
+    vendor = ForeignKeyField(Vendor , backref="ouis")
 
+    class Meta:
+        table_name = "vendor_oui"
 
-
+VendorToActivityType = ActivityType.vendors.get_through_model()
 
 database.connect()
-database.create_tables([ BilboardInfo , Vendor , ActivityType ])
+database.create_tables([ BilboardInfo , Vendor , ActivityType , OUI , VendorToActivityType ])
