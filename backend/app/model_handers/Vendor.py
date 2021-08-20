@@ -7,18 +7,9 @@ class CreateT(BaseModel):
     oui  : str
     name :  str
 async def create( dto : CreateT) -> models.Vendor:
-    return await models.objects.create( models.Vendor , oui = dto.oui , name = dto.name )
 
-class UpdateT(BaseModel) :
-    id : int
-    oui : str
-    name : str
-async def update( dto : UpdateT ) -> models.Vendor:
-    obj = await models.objects.get( models.Vendor ,  id = dto.id )
-    obj.oui = dto.oui
-    obj.name = dto.name
-    return await models.objects.update(obj)
-
+    return await models.objects.create( models.Vendor , name = dto.name )
+    
 async def delete( id : int ) -> models.Vendor:
     obj = await models.objects.get( models.Vendor , id = id)
     return await models.objects.delete(obj)
