@@ -1,5 +1,5 @@
 import asyncio
-from peewee import DateTimeField, ForeignKeyField, Model  , AutoField , CharField
+from peewee import DateTimeField, ForeignKeyField, ManyToManyField, Model  , AutoField , CharField
 from peewee_async import Manager ,  PooledPostgresqlDatabase
 
 loop = asyncio.new_event_loop()
@@ -10,6 +10,10 @@ objects = Manager(database = database , loop=loop)
 class BaseModel(Model):
     class Meta:
         database = database
+
+
+
+
 
 class Vendor(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
@@ -31,10 +35,14 @@ class BilboardInfo(BaseModel):
 class ActivityType(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
     name = CharField(null = False , unique=True,  max_length=64  , column_name = "activity_type_name" , verbose_name = "activity_type_name")
-    vendor = ForeignKeyField(Vendor , backref="activity_types")
-
+    vendors = ManyToManyField(Vendor , backref="activity_types")
     class Meta:
         table_name = "activity_type"
+
+
+
+
+
 
 database.connect()
 database.create_tables([ BilboardInfo , Vendor , ActivityType ])

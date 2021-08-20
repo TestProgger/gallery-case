@@ -4,19 +4,19 @@ from pydantic import BaseModel
 
 
 class CreateT(BaseModel):
-    mac  : str
-    timestamp :  str
+    oui  : str
+    name :  str
 async def create( dto : CreateT) -> models.Vendor:
-    return await models.objects.create( models.Vendor , mac = dto.mac , timestamp = dto.timestamp )
+    return await models.objects.create( models.Vendor , oui = dto.oui , name = dto.name )
 
 class UpdateT(BaseModel) :
     id : int
-    mac : str
-    timestamp : str
+    oui : str
+    name : str
 async def update( dto : UpdateT ) -> models.Vendor:
     obj = await models.objects.get( models.Vendor ,  id = dto.id )
-    obj.mac = dto.mac
-    obj.timestamp = dto.timestamp
+    obj.oui = dto.oui
+    obj.name = dto.name
     return await models.objects.update(obj)
 
 async def delete( id : int ) -> models.Vendor:
