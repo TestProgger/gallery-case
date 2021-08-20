@@ -1,5 +1,5 @@
 from fastapi import FastAPI 
-from .middlware import pqt_to_list
+from .assistants import pqt_to_list
 from json import dump
 app = FastAPI()
 
