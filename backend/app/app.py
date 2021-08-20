@@ -13,6 +13,6 @@ async def plug(id : int):
 
 
 
-@app.get("/create_device")
+@app.post("/create_device")
 async def create_device(dev :  DeviceInfoDTO):
     return await DeviceInfo.create( DeviceInfo.CreateT( mac = dev.mac , timestamp=dev.timestamp ) )
