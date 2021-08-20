@@ -2,14 +2,18 @@ from typing import List
 from .. import models
 from pydantic import BaseModel
 
-
+class OUI(BaseModel):
+    oui : str
 class CreateT(BaseModel):
-    oui  : str
     name :  str
-async def create( dto : CreateT) -> models.Vendor:
+    ouis : List[OUI]
 
-    return await models.objects.create( models.Vendor , name = dto.name )
-    
+async def create( dto : CreateT) -> models.Vendor:
+    vendor = await models.objects.create( models.Vendor , name = dto.name )
+    for oui in dto.ouis:
+        models.objects.create( models.OUI , oui = oui.oui , vendor = vendor )
+    return vendor
+
 async def delete( id : int ) -> models.Vendor:
     obj = await models.objects.get( models.Vendor , id = id)
     return await models.objects.delete(obj)
