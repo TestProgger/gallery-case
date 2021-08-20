@@ -1,9 +1,9 @@
 from typing import List
 from .. import models
-from pydantic import BaseModel
 
 class CreateT:
-    oui : str
+    def __init__(self, oui) -> None:
+        self.oui = oui
 async def create( dto : CreateT) -> models.OUI:
     return await models.objects.create( models.OUI , oui = dto.oui )
 

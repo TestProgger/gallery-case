@@ -1,6 +1,5 @@
 from typing import List
 from .. import models
-from pydantic import BaseModel
 
 class OUI:
     def __init__(self , oui) -> None:

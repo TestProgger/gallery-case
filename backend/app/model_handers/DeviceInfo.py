@@ -1,12 +1,12 @@
 from typing import List
 from .. import models
 from . import Vendor
-from pydantic import BaseModel
 
 
 class CreateT:
-    mac  : str
-    timestamp :  str
+    def __init__(self , mac : str  , timestamp : str) -> None:
+        self.mac = mac
+        self.timestamp = timestamp
 async def create( dto : CreateT) -> models.DeviceInfo:
     oui = ":".join( dto.mac.split(":")[0:3] )
     vendor = await Vendor.get_by_oui(oui)
