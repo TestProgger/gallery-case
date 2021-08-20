@@ -2,15 +2,15 @@ from typing import List
 from .. import models
 
 class OUI:
-    def __init__(self , oui) -> None:
+    def __init__(self , oui : str) -> None:
         self.oui = oui
 
 class ActivityType:
-    def __init__(self, name) -> None:
+    def __init__(self, name : str) -> None:
         self.name = name
 
 class CreateT:
-    def __init__(self, name , ouis , activity_types) -> None:
+    def __init__(self, name : str , ouis : List[OUI] , activity_types : List[ActivityType]) -> None:
         self.name  = name
         self.ouis  = ouis
         self.activity_types  = activity_types

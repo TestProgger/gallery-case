@@ -2,7 +2,7 @@ from typing import List
 from .. import models
 
 class CreateT:
-    def __init__(self, oui) -> None:
+    def __init__(self, oui : str) -> None:
         self.oui = oui
 async def create( dto : CreateT) -> models.OUI:
     return await models.objects.create( models.OUI , oui = dto.oui )
