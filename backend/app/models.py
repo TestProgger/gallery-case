@@ -17,14 +17,14 @@ class Vendor(BaseModel):
     class Meta:
         table_name = "vendor"
 
-class BilboardInfo(BaseModel):
+class DeviceInfo(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
     mac = CharField(null = False , unique=False,  max_length=18  , column_name = "mac" , verbose_name = "mac")
     timestamp = DateTimeField(null = False , unique=False, column_name = "timestamp" , verbose_name = "Timestamp")
     vendor = ForeignKeyField(Vendor , backref="catched_devices")
 
     class Meta:
-        table_name = "bilboard_info"
+        table_name = "device_info"
 
 class ActivityType(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
@@ -45,4 +45,4 @@ class OUI(BaseModel):
 VendorToActivityType = ActivityType.vendors.get_through_model()
 
 database.connect()
-database.create_tables([ BilboardInfo , Vendor , ActivityType , OUI , VendorToActivityType ])
+database.create_tables([ DeviceInfo , Vendor , ActivityType , OUI , VendorToActivityType ])
