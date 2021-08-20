@@ -1,5 +1,5 @@
 from typing import List
-from .. import models
+from .. import models , assistants
 from . import Vendor
 
 
@@ -22,3 +22,9 @@ async def get_by_id( id : int ) -> models.DeviceInfo:
 
 async def get_all() -> List[models.DeviceInfo]:
     return list(models.DeviceInfo.select())
+
+async def from_parquet(path_to_parquet : str) -> bool:
+    data_list = assistants.pqt_to_list(path_to_parquet)
+    for data in data_list:
+        create( CreateT( mac = data["Mac"] , timestamp = data["AddedOnDate"]) )
+    return True
