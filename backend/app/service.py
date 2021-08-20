@@ -1,5 +1,3 @@
-from peewee import TimestampField
-from peewee_async import delete
 from .models import objects , BilboardInfo
 from .types.BilboardInfoTypes import Create_T , Delete_T , Update_T
 
