@@ -10,7 +10,8 @@ class CreateT:
 async def create( dto : CreateT) -> models.DeviceInfo:
     oui = ":".join( dto.mac.split(":")[0:3] )
     vendor = await Vendor.get_by_oui(oui)
-    return await models.objects.create( models.DeviceInfo , mac = dto.mac , timestamp = dto.timestamp , vendor = vendor )
+    if vendor:
+        return await models.objects.create( models.DeviceInfo , mac = dto.mac , timestamp = dto.timestamp , vendor = vendor )
 
 async def delete( id : int ) -> models.DeviceInfo:
     obj = await models.objects.get( models.DeviceInfo , id = id)
