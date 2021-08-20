@@ -25,6 +25,9 @@ async def delete( id : int ) -> models.Vendor:
 
 async def get_by_id( id : int ) -> models.Vendor:
     return await models.objects.get( models.Vendor , id = id )
+
+async def get_by_oui( oui : str ) -> models.Vendor:
+    return await models.objects.get( models.Vendor ,  oui = oui )
     
 async def get_all() -> List[models.Vendor]:
     return list(models.Vendor.select())
