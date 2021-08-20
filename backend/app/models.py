@@ -1,5 +1,4 @@
 import asyncio
-from datetime import datetime
 from peewee import DateTimeField, ForeignKeyField, Model  , AutoField , CharField
 from peewee_async import Manager ,  PooledPostgresqlDatabase
 
