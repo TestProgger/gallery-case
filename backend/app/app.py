@@ -1,5 +1,7 @@
 from . import models
 from fastapi import FastAPI 
+from fastapi.responses import JSONResponse 
+from fastapi.encoders import jsonable_encoder
 from .model_handers import DeviceInfo , Vendor
 from .dto_types import DeviceInfoDTO
 
@@ -32,4 +34,13 @@ async def create_device(dev :  DeviceInfoDTO):
 
 @app.post("/get_info")
 async def get_info():
-    return await DeviceInfo.get_distinct_timestamps()
+    timestamps =  await DeviceInfo.get_distinct_timestamps()
+    
+    l = dict()
+    
+    for timestamp in timestamps:
+        r = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.id ).where(models.DeviceInfo.timestamp == timestamp) )
+        l[str(timestamp)] = len([ rr.id for rr in r ] )
+    
+    return JSONResponse(content=l)
+    
