@@ -78,7 +78,7 @@ async def get_devices_by_bilboard_id( bilboard_id : int ,  limit: int = 100 , of
 
 async def get_devices_by_weekday(weekday: int , limit: int = 100 , offset :int = 0  ):
     timestamps = await get_distinct_timestamps()
-    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.isocalemdar().weekday) == weekday]
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.isocalendar().weekday) == weekday]
 
     d_limit = limit // len(valid_tmstp)
     devs = [] 
