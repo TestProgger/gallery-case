@@ -53,13 +53,12 @@ async def get_device_ids():
     ids = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.bilboard_id ).distinct() )
     return [ id.bilboard_id for id in ids ]
 
-async def get_data(limit: int = 100 , offset :int = 0):
+async def get_devices(limit: int = 100 , offset :int = 0):
     devs = await models.objects.execute(
         models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.bilboard_id , models.DeviceInfo.vendor  )
                         .limit( limit )
                         .offset( offset )
     )
-
     return [
         { 
             "timestamp" : d.timestamp , 
@@ -70,6 +69,13 @@ async def get_data(limit: int = 100 , offset :int = 0):
         for d in devs
     ]
 
+async def get_number_devices_with_timestamp():
+    timestamps =  await get_distinct_timestamps()
+    response = dict()
+    for timestamp in timestamps:
+        r = await models.objects.execute(models.DeviceInfo.select( models.DeviceInfo.id ).where(models.DeviceInfo.timestamp == timestamp))
+        response[str(timestamp)] = { "ftime" : timestamp.strftime("%a,%b,%Y-%m-%d,%H:%M%S") , "count" : len(r)} 
+    return response
 
 async def get_devices_by_timestamp(timestamp :  str, limit: int = 100 , offset :int = 0 ):
     devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.vendor , models.DeviceInfo.bilboard_id).where(models.DeviceInfo.timestamp == timestamp).limit(limit).offset(offset) )
