@@ -22,8 +22,6 @@ WORKLOAD_HOURS_WEEKENDS = {
 
 MAX_IN_HOUR = 24
 
-CRAZY_CACHE = dict()
-
 # 6 , 9, 18, 24, 30, 36, 42, 48, 54, 60, 66 и 72
 
 
@@ -54,11 +52,8 @@ async def get_info():
 
 
 @app.post("/calc_ad_imr")
-async def calc_ad_imr(data: CalcAdImpr):
-    number_ad_impr = data.number
+async def calc_ad_imr():
 
-    if number_ad_impr in CRAZY_CACHE:
-        return CRAZY_CACHE[number_ad_impr]["response"]
 
     bb_stat = {
         b:
@@ -132,29 +127,6 @@ async def calc_ad_imr(data: CalcAdImpr):
                     bb_stat[bb_id][day][hour] = 9
                 for bb_id in max_watches:
                     bb_stat[bb_id][day][hour] = 18
-
-    
-
-    # response = list()
-
-
-
-    # while number_ad_impr > 0:
-    #     x = choice( DeviceInfo.BILBOARD_IDS )
-    #     day = choice(list(range(1 , 7+1))) 
-    #     hour = choice(list(range(0 , 23+1)))
-    #     num_ad = bb_stat[x][day][hour]
-    #     number_ad_impr -= num_ad
-    #     response.append( 
-    #         {
-    #             "bilboard_id" : x,
-    #             "day" : day,
-    #             "hour" : hour,
-    #             "numAd" : num_ad 
-    #         }
-    #      )
-
-    # CRAZY_CACHE[number_ad_impr] = { "bb_stat" : bb_stat , "response" : response }
 
 
     return bb_stat
