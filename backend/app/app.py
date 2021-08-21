@@ -24,6 +24,11 @@ async def init_db():
                 activity_types= [ Vendor.ActivityType( at )  for at in vendors[vendor_name]['activityType'] ]
             )
         )
+    
+    await DeviceInfo.from_parquet( './month=2020-11.parquet' )
+    await DeviceInfo.from_parquet( './month=2021-3.parquet' )
+    await DeviceInfo.from_parquet( './month=2021-6.parquet' )
+    
 
     return {'a' : 111}
 
