@@ -32,6 +32,8 @@ async def get_info():
 @app.post("/calc_ad_imr")
 async def calc_ad_imr( data : CalcAdImpr ):
     number_ad_impr = data.number
+
+
     
 @app.get("/get_data")
 async def get_data(limit : int  =  100 , offset: int = 0):
@@ -59,4 +61,8 @@ async def get_data_by_weekday(weekday : int , limit : int = 100 ,  offset: int =
         return { "error" :"The number of the day of the week can not exceed 7 and be less than 1" }
     return await DeviceInfo.get_devices_by_weekday(weekday=weekday ,limit = limit , offset = offset  )
 
-
+@app.get("/get_number_devices_by_weekday")
+async def get_number_devices_by_weekday( weekday : int ):
+    if weekday > 7 or weekday < 1:
+        return { "error" :"The number of the day of the week can not exceed 7 and be less than 1" }
+    return await DeviceInfo.get_number_devices_by_weekday(weekday=weekday)

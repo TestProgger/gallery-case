@@ -116,3 +116,17 @@ async def get_devices_by_weekday(weekday: int , limit: int = 100 , offset :int =
         devs += [ { "timestamp" : d.timestamp , "mac" : d.mac  , "vendor" : d.vendor , "bilboard_id" : d.bilboard_id}  for d in tmp_d ] 
 
     return devs
+
+async def get_number_devices_by_weekday(weekday: int):
+    timestamps = await get_distinct_timestamps()
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.isocalendar().weekday) == weekday]
+
+    devs = dict()
+    for tmp in valid_tmstp:
+        tmp_d = await models.objects.execute(
+            models.DeviceInfo.select( models.DeviceInfo.id )
+            .where( models.DeviceInfo.timestamp == tmp )
+            .count()
+        )
+        devs[str( tmp )] = tmp_d
+    print(devs)
