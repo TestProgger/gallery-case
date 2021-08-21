@@ -54,3 +54,12 @@ async def get_device_ids():
 async def get_devices_by_timestamp(timestamp :  str, limmit: int = 100 , offset :int = 0 ):
     devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.vendor , models.DeviceInfo.bilboard_id).where(models.DeviceInfo.timestamp == timestamp).limit(limmit).offset(offset) )
     return [ { "vendor" : dev.vendor , "mac" : dev.mac  , "bilboard_id" : dev.bilboard_id} for dev in devs ]
+
+async def get_devices_by_vendor_id(vendor_id : int , limmit: int = 100 , offset :int = 0 ):
+    vendor = await models.objects.get(models.Vendor , id  = vendor_id )
+    devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.bilboard_id).where(models.DeviceInfo.vendor == vendor).limit(limmit).offset(offset) )
+    return [ { "timestamp" : dev.timestamp , "mac" : dev.mac  , "bilboard_id" : dev.bilboard_id} for dev in devs ]
+
+async def get_devices_by_bilboard_id( bilboard_id : int ,  limmit: int = 100 , offset :int = 0 ):
+    devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.vendor).where(models.DeviceInfo.bilboard_id == bilboard_id).limit(limmit).offset(offset) )
+    return [ { "timestamp" : dev.timestamp , "mac" : dev.mac  , "vendor" : dev.vendor} for dev in devs ]
