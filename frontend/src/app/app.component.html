@@ -1,0 +1,20 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <a href="/"><img src="/assets/images/logo.png" width="100" alt="Gallery" id="logo-img"></a>
+  <!-- <span id="logo-id">Gallery</span> -->
+    <div class="spacer"></div>
+    <div id="nav-bar">
+      <a routerLink="/" routerLinkActive="active" class="nav-link">Главная</a>
+      <a routerLink="/stats" routerLinkActive="active" class="nav-link">Статистика</a>
+      <a routerLink="/plan" routerLinkActive="active" class="nav-link">Планирование</a>
+    </div>
+</div>
+
+<div class="content" role="main">
+  <router-outlet></router-outlet>
+</div>
+
+<footer>
+  <div id="footer-main">Scrypted © 2021</div>
+</footer>
+
