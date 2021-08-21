@@ -39,17 +39,12 @@ async def create_device(dev :  DeviceInfoDTO):
 @app.post("/get_info")
 async def get_info():
     timestamps =  await DeviceInfo.get_distinct_timestamps()
-    bilboard_ids = await DeviceInfo.get_device_ids()
     
     response = dict()
     
     for timestamp in timestamps:
-        by_tmstp = dict()
-        for bilboard_id in bilboard_ids:
-            r = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.id ).where(models.DeviceInfo.timestamp == timestamp and models.DeviceInfo.bilboard_id == bilboard_id) )
-            by_tmstp[str(bilboard_id)] = len( [  rr.id for rr in r ]  )
-
-        response[str(timestamp)] = by_tmstp
+        r = await models.objects.execute(models.DeviceInfo.select( models.DeviceInfo.id ).where(models.DeviceInfo.timestamp == timestamp))
+        response[str(timestamp)] = len(r)
     
     return JSONResponse(content=response)
     
