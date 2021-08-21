@@ -5,6 +5,7 @@ import re
 class DeviceInfoDTO(BaseModel):
     mac : str
     timestamp : str
+    bilboard_id : int
 
     @validator('mac')
     def mac_validator(cls , v : str):
