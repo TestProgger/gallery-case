@@ -69,4 +69,4 @@ async def get_number_devices_by_weekday( weekday : int ):
 
 @app.get("/get_bilboard_stat_by_timestamp")
 async def get_bilboard_stat_by_timestamp( timestamp : str ):
-    return await DeviceInfo.get_number_devices_by_timestamp(timestamp)
+    return await DeviceInfo.get_bilboard_stat_by_timestamp(timestamp)
