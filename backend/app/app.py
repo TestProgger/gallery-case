@@ -33,6 +33,10 @@ async def calc_ad_imr( data : CalcAdImpr ):
     
 
 
+@app.get("/get_data")
+async def get_data(limit : int  =  100 , offset: int = 0):
+    return await DeviceInfo.get_data(limit=limit , offset=offset)
+
 @app.get("/get_data_by_vendor")
 async def get_data_by_vendor(vendor_id: int , limit : int  =  100 , offset: int = 0):
     return await DeviceInfo.get_devices_by_vendor_id(vendor_id=vendor_id , limmit=limit , offset = offset)
@@ -46,7 +50,7 @@ async def get_data_by_bilboard_id(bilboard_id : int , limit : int  =  100 , offs
     return await DeviceInfo.get_devices_by_bilboard_id(bilboard_id=bilboard_id , limmit=limit , offset = offset)
 
 @app.get("/get_data_by_weekday")
-async def get_data_by_day_week(weekday : int , limit : int = 100 ,  offset: int = 0 ):
+async def get_data_by_weekday(weekday : int , limit : int = 100 ,  offset: int = 0 ):
     if weekday > 7 or weekday < 1:
         return { "error" :"The number of the day of the week can not exceed 7 and be less than 1" }
     return await DeviceInfo.get_devices_by_weekday(weekday=weekday ,limit = limit , offset = offset  )

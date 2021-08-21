@@ -15,3 +15,4 @@ class DeviceInfoDTO(BaseModel):
 
 class CalcAdImpr(BaseModel):
     number : int 
+    
