@@ -48,3 +48,6 @@ async def get_info():
     
     return JSONResponse(content=response)
     
+@app.get("/get_data_by_timestamp")
+async def get_data_by_timestamp(timestamp : str , limit : int  =  100 , offset: int = 0):
+    return await DeviceInfo.get_devices_by_timestamp(timestamp=timestamp , limmit=limit , offset = offset)
