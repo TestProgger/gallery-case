@@ -1,5 +1,4 @@
 import asyncio
-from enum import unique
 from peewee import DateTimeField, ForeignKeyField, ManyToManyField, Model  , AutoField , CharField
 from peewee_async import Manager ,  PooledPostgresqlDatabase
 
@@ -18,11 +17,19 @@ class Vendor(BaseModel):
     class Meta:
         table_name = "vendor"
 
+class DeviceAddress(BaseModel):
+    id =  AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
+    address = CharField(null = False , unique=True , max_length=512 , column_name  = "device_address" , verbose_name  = "device_address")
+    
+    class Meta:
+        table_name = "device_address"
+
 class DeviceInfo(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
     mac = CharField(null = False , unique=False,  max_length=18  , column_name = "mac" , verbose_name = "mac")
     timestamp = DateTimeField(null = False , unique=False, column_name = "timestamp" , verbose_name = "Timestamp")
     vendor = ForeignKeyField(Vendor , backref="catched_devices")
+    address = ForeignKeyField(DeviceAddress , backref="device")
 
     class Meta:
         table_name = "device_info"
@@ -33,12 +40,6 @@ class ActivityType(BaseModel):
     vendors = ManyToManyField(Vendor , backref="activity_types")
     class Meta:
         table_name = "activity_type"
-
-
-class DeviceAddress(BaseModel):
-    id =  AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
-    address = CharField(null = False , unique=True , max_length=512 , column_name  = "device_address" , verbose_name  = "device_address")
-    deice = ForeignKeyField(DeviceInfo , backref="adress")
 
 class OUI(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
