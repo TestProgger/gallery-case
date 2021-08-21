@@ -26,7 +26,6 @@ async def init_db():
         )
     
     await DeviceInfo.from_parquet( './month=2020-11.parquet' )
-    await DeviceInfo.from_parquet( './month=2021-3.parquet' )
     await DeviceInfo.from_parquet( './month=2021-6.parquet' )
     
 
