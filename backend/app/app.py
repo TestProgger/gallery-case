@@ -44,7 +44,7 @@ async def get_info():
     
     for timestamp in timestamps:
         r = await models.objects.execute(models.DeviceInfo.select( models.DeviceInfo.id ).where(models.DeviceInfo.timestamp == timestamp))
-        response[str(timestamp)] = len(r)
+        response[str(timestamp)] = { "ftime" : timestamp.strftime("%a,%b,%Y-%m-%d,%H:%M%S") , "count" : len(r)} 
     
     return JSONResponse(content=response)
     
