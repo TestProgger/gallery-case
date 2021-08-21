@@ -133,6 +133,24 @@ async def get_number_devices_by_weekday(weekday: int):
     devs["avg"] =  avg // len(valid_tmstp) 
     return devs
 
+async def get_number_devices_by_month( month : int ):
+    timestamps = await get_distinct_timestamps()
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.timetuple().month) == month]
+
+    devs = dict()
+    avg = 0
+    for tmp in valid_tmstp:
+        tmp_d = models.DeviceInfo.select( models.DeviceInfo.id )\
+                .where( models.DeviceInfo.timestamp == tmp )\
+                .count()
+        
+        devs[str( tmp )] = tmp_d
+        avg += tmp_d
+    devs["avg"] =  avg // len(valid_tmstp) 
+    return devs
+
+
+
 async def get_bilboard_stat_by_timestamp(timestamp : str):
     bilboard_ids = [
                 1548 , 1549 , 1572 , 257, 258 , 
