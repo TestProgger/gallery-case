@@ -17,19 +17,19 @@ class Vendor(BaseModel):
     class Meta:
         table_name = "vendor"
 
-class DeviceAddress(BaseModel):
-    id =  AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
-    address = CharField(null = False , unique=True , max_length=512 , column_name  = "device_address" , verbose_name  = "device_address")
+# class DeviceAddress(BaseModel):
+#     id =  AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
+#     address = CharField(null = False , unique=True , max_length=512 , column_name  = "device_address" , verbose_name  = "device_address")
     
-    class Meta:
-        table_name = "device_address"
+#     class Meta:
+#         table_name = "device_address"
 
 class DeviceInfo(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
     mac = CharField(null = False , unique=False,  max_length=18  , column_name = "mac" , verbose_name = "mac")
     timestamp = DateTimeField(null = False , unique=False, column_name = "timestamp" , verbose_name = "Timestamp")
     vendor = ForeignKeyField(Vendor , backref="catched_devices")
-    address = ForeignKeyField(DeviceAddress , backref="device")
+   # address = ForeignKeyField(DeviceAddress , backref="device")
 
     class Meta:
         table_name = "device_info"
@@ -52,4 +52,4 @@ class OUI(BaseModel):
 VendorToActivityType = ActivityType.vendors.get_through_model()
 
 database.connect()
-database.create_tables([ DeviceInfo , Vendor , ActivityType , OUI , DeviceAddress ,VendorToActivityType ])
+database.create_tables([ DeviceInfo , Vendor , ActivityType , OUI  ,VendorToActivityType ])
