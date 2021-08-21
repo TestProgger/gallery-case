@@ -128,4 +128,4 @@ async def get_number_devices_by_weekday(weekday: int):
                 .count()
         
         devs[str( tmp )] = tmp_d
-    print(devs)
+    return devs
