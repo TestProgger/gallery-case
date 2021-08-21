@@ -54,12 +54,22 @@ async def get_device_ids():
     return [ id.bilboard_id for id in ids ]
 
 async def get_data(limit: int = 100 , offset :int = 0):
-    return await models.objects.execute(
+    devs = await models.objects.execute(
         models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.bilboard_id , models.DeviceInfo.vendor  )
                         .limit( limit )
                         .offset( offset )
     )
-    
+
+    return [
+        { 
+            "timestamp" : d.timestamp , 
+            "mac" : d.mac  , 
+            "vendor" : d.vendor , 
+            "bilboard_id" : d.bilboard_id
+        }  
+        for d in devs
+    ]
+
 
 async def get_devices_by_timestamp(timestamp :  str, limit: int = 100 , offset :int = 0 ):
     devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.vendor , models.DeviceInfo.bilboard_id).where(models.DeviceInfo.timestamp == timestamp).limit(limit).offset(offset) )
