@@ -32,15 +32,24 @@ async def init_db():
 async def create_device(dev :  DeviceInfoDTO):
     return await DeviceInfo.create( DeviceInfo.CreateT( mac = dev.mac , timestamp=dev.timestamp , bilboard_id=dev.bilboard_id ) )
 
+
+
+
+
 @app.post("/get_info")
 async def get_info():
     timestamps =  await DeviceInfo.get_distinct_timestamps()
+    bilboard_ids = await DeviceInfo.get_device_ids()
     
-    l = dict()
+    response = dict()
     
     for timestamp in timestamps:
-        r = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.id ).where(models.DeviceInfo.timestamp == timestamp) )
-        l[str(timestamp)] = len([ rr.id for rr in r ] )
+        by_tmstp = dict()
+        for bilboard_id in bilboard_ids:
+            r = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.id ).where(models.DeviceInfo.timestamp == timestamp and models.DeviceInfo.bilboard_id == bilboard_id) )
+            by_tmstp[str(bilboard_id)] = len( [  rr.id for rr in r ]  )
+
+        response[str(timestamp)] = by_tmstp
     
-    return JSONResponse(content=l)
+    return JSONResponse(content=response)
     

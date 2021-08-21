@@ -46,3 +46,7 @@ async def from_parquet(path_to_parquet : str) -> bool:
 async def get_distinct_timestamps():
     timestamps =  await models.objects.execute( models.DeviceInfo.select(models.DeviceInfo.timestamp).distinct() )  
     return [ tm.timestamp for tm in timestamps ]
+
+async def get_device_ids():
+    ids = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.bilboard_id ).distinct() )
+    return [ id.bilboard_id for id in ids ]
