@@ -7,6 +7,10 @@ from .dto_types import DeviceInfoDTO , CalcAdImpr
 
 app = FastAPI()
 
+MAX_WORKLOAD_HOURS = [ 7 , 8 , 9  , 12  , 13  , 16 , 17 , 18 , 19]
+MED_WORKLOAD_HOURS = [ 10 , 11 , 14 , 15 , 20  , 21 , 22 ]
+MIN_WORKLOAD_HOURS = [ 0 , 1 , 2 , 3 , 4 , 5 , 6 , 23 ]
+
 
 
 @app.post("/create_device")
@@ -33,9 +37,15 @@ async def calc_ad_imr( data : CalcAdImpr ):
     
 
 
+
+
 @app.get("/get_data")
 async def get_data(limit : int  =  100 , offset: int = 0):
-    return await DeviceInfo.get_data(limit=limit , offset=offset)
+    return await DeviceInfo.get_devices(limit=limit , offset=offset)
+
+@app.get("/get_number_devices_with_timestamp")
+async def get_number_devices_with_timestamp():
+    return await DeviceInfo.get_number_devices_with_timestamp()
 
 @app.get("/get_data_by_vendor")
 async def get_data_by_vendor(vendor_id: int , limit : int  =  100 , offset: int = 0):

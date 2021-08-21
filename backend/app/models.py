@@ -2,8 +2,20 @@ import asyncio
 from peewee import DateTimeField, ForeignKeyField, IntegerField, ManyToManyField, Model  , AutoField , CharField
 from peewee_async import Manager ,  PooledPostgresqlDatabase
 
+from json import load
+with open('config.json' , "r") as jr:
+    config = load(jr)
+
+
 loop = asyncio.new_event_loop()
-database = PooledPostgresqlDatabase('PTO_YONVOS' , user = "postgres" , password = "ros1337ini" , host="localhost" , port = 5432 , max_connections=20)
+database = PooledPostgresqlDatabase(
+    database=config["database"] , 
+    user = config["user"] , 
+    password = config["password"] , 
+    host= config["host"] , 
+    port = config["port"] , 
+    max_connections=config["max_connections"]    
+    )
 objects = Manager(database = database , loop=loop)
 
 class BaseModel(Model):
