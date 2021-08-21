@@ -42,3 +42,7 @@ async def from_parquet(path_to_parquet : str) -> bool:
     for data in data_list:
         await create( CreateT( mac = data["Mac"] , timestamp = data["AddedOnDate"] , bilboard_id = choice(b_ids)) )
     return True
+
+async def get_distinct_timestamps():
+    timestamps =  await models.objects.execute( models.DeviceInfo.select(models.DeviceInfo.timestamp).distinct() )  
+    return [ tm.timestamp for tm in timestamps ]
