@@ -142,6 +142,6 @@ async def get_bilboard_stat_by_timestamp(timestamp : str):
             ]
     response  = dict()
     for b_id in bilboard_ids:
-        response[b_id] = models.DeviceInfo.select( models.DeviceInfo.bilboard_id , models.DeviceInfo.id )\
+        response[b_id] = models.DeviceInfo.select( models.DeviceInfo.id )\
                         .where( models.DeviceInfo.timestamp == timestamp  and models.DeviceInfo.bilboard_id == b_id).count()
     return response
