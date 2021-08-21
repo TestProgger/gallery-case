@@ -12,3 +12,6 @@ class DeviceInfoDTO(BaseModel):
         if not re.fullmatch(r"[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}" , v.lower()):
             raise ValidationError(f" MAC is not valid : {v}")
         return v
+
+class CalcAdImpr(BaseModel):
+    number : int 

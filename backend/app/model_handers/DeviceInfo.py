@@ -1,5 +1,7 @@
 from random import choice
 from typing import List
+
+from pydantic.schema import model_schema
 from .. import models , assistants
 from . import Vendor 
 
@@ -51,15 +53,42 @@ async def get_device_ids():
     ids = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.bilboard_id ).distinct() )
     return [ id.bilboard_id for id in ids ]
 
-async def get_devices_by_timestamp(timestamp :  str, limmit: int = 100 , offset :int = 0 ):
-    devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.vendor , models.DeviceInfo.bilboard_id).where(models.DeviceInfo.timestamp == timestamp).limit(limmit).offset(offset) )
+async def get_devices_by_timestamp(timestamp :  str, limit: int = 100 , offset :int = 0 ):
+    devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.vendor , models.DeviceInfo.bilboard_id).where(models.DeviceInfo.timestamp == timestamp).limit(limit).offset(offset) )
     return [ { "vendor" : dev.vendor , "mac" : dev.mac  , "bilboard_id" : dev.bilboard_id} for dev in devs ]
 
-async def get_devices_by_vendor_id(vendor_id : int , limmit: int = 100 , offset :int = 0 ):
+async def get_devices_by_vendor_id(vendor_id : int , limit: int = 100 , offset :int = 0 ):
     vendor = await models.objects.get(models.Vendor , id  = vendor_id )
-    devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.bilboard_id).where(models.DeviceInfo.vendor == vendor).limit(limmit).offset(offset) )
+    devs = await models.objects.execute( 
+        models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.bilboard_id)
+                        .where(models.DeviceInfo.vendor == vendor)
+                        .limit(limit)
+                        .offset(offset) 
+                        )
     return [ { "timestamp" : dev.timestamp , "mac" : dev.mac  , "bilboard_id" : dev.bilboard_id} for dev in devs ]
 
-async def get_devices_by_bilboard_id( bilboard_id : int ,  limmit: int = 100 , offset :int = 0 ):
-    devs = await models.objects.execute( models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.vendor).where(models.DeviceInfo.bilboard_id == bilboard_id).limit(limmit).offset(offset) )
+async def get_devices_by_bilboard_id( bilboard_id : int ,  limit: int = 100 , offset :int = 0 ):
+    devs = await models.objects.execute( 
+        models.DeviceInfo.select( models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.vendor)
+        .where(models.DeviceInfo.bilboard_id == bilboard_id)
+        .limit(limit)
+        .offset(offset) 
+        )
     return [ { "timestamp" : dev.timestamp , "mac" : dev.mac  , "vendor" : dev.vendor} for dev in devs ]
+
+async def get_devices_by_weekday(weekday: int , limit: int = 100 , offset :int = 0  ):
+    timestamps = get_distinct_timestamps()
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.iscalemdar().weekday) == weekday]
+
+    d_limit = limit // len(valid_tmstp)
+    devs = [] 
+    for tmp in valid_tmstp:
+        tmp_d = await models.objects.execute( 
+            models.DeviceInfo.select(models.DeviceInfo.mac , models.DeviceInfo.timestamp , models.DeviceInfo.bilboard_id , models.DeviceInfo.vendor)
+                            .where( models.DeviceInfo.timestamp == tmp )
+                            .limit(d_limit)
+                            .offset(offset)
+        )
+        devs += [ { "timestamp" : d.timestamp , "mac" : d.mac  , "vendor" : d.vendor , "bilboard_id" : d.bilboard_id}  for d in tmp_d ] 
+
+    return devs
