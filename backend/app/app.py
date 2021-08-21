@@ -42,7 +42,7 @@ async def get_data_by_timestamp(timestamp : str , limit : int  =  100 , offset: 
     return await DeviceInfo.get_devices_by_timestamp(timestamp=timestamp , limmit=limit , offset = offset)
 
 @app.get("/get_data_by_bilboard_id")
-async def get_data_by_bilboard_id(bilboard_id : str , limit : int  =  100 , offset: int = 0):
+async def get_data_by_bilboard_id(bilboard_id : int , limit : int  =  100 , offset: int = 0):
     return await DeviceInfo.get_devices_by_bilboard_id(bilboard_id=bilboard_id , limmit=limit , offset = offset)
 
 @app.get("/get_data_by_weekday")
