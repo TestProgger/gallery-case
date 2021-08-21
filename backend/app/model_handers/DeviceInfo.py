@@ -123,10 +123,9 @@ async def get_number_devices_by_weekday(weekday: int):
 
     devs = dict()
     for tmp in valid_tmstp:
-        tmp_d = await models.objects.execute(
-            models.DeviceInfo.select( models.DeviceInfo.id )
-            .where( models.DeviceInfo.timestamp == tmp )
-            .count()
-        )
+        tmp_d = models.DeviceInfo.select( models.DeviceInfo.id )\
+                .where( models.DeviceInfo.timestamp == tmp )\
+                .count()
+        
         devs[str( tmp )] = tmp_d
     print(devs)
