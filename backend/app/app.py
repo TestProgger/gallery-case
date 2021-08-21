@@ -43,6 +43,7 @@ async def calc_ad_imr( data : CalcAdImpr ):
 
 
 
+
     
 @app.get("/get_data")
 async def get_data(limit : int  =  100 , offset: int = 0):
@@ -84,6 +85,21 @@ async def get_number_devices_by_weekday( month : int ):
     return await DeviceInfo.get_number_devices_by_month(month=month)
 
 
+
+## STAT FUNCTION 
+
 @app.get("/get_bilboard_stat_by_timestamp")
 async def get_bilboard_stat_by_timestamp( timestamp : str ):
     return await DeviceInfo.get_bilboard_stat_by_timestamp(timestamp)
+
+@app.get("/get_bilboard_stat_by_weekday")
+async def get_bilboard_stat_by_timestamp( weekday : int ):
+    if weekday > 7 or weekday < 1:
+        return { "error" :"The number of the day of the week can not exceed 7 and be less than 1" }
+    return await DeviceInfo.get_bilboard_stat_by_weekday(weekday)
+
+@app.get("/get_bilboard_stat_by_month")
+async def get_bilboard_stat_by_timestamp( month : int ):
+    if month > 12 or month < 1:
+        return { "error" :"The number of the month of the week can not exceed 7 and be less than 1" }
+    return await DeviceInfo.get_bilboard_stat_by_month(month)
