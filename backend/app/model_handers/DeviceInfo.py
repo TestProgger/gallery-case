@@ -132,3 +132,16 @@ async def get_number_devices_by_weekday(weekday: int):
         avg += tmp_d
     devs["avg"] =  avg // len(valid_tmstp) 
     return devs
+
+async def get_bilboard_stat_by_timestamp(timestamp : str):
+    bilboard_ids = [
+                1548 , 1549 , 1572 , 257, 258 , 
+                259 , 260 , 261 , 262 , 263 , 
+                264 , 267 , 265 , 266 , 2657 , 
+                268 , 269 , 270 , 271 , 272 , 273 , 333 , 40 , 403
+            ]
+    response  = dict()
+    for b_id in bilboard_ids:
+        response[b_id] = models.DeviceInfo.select( models.DeviceInfo.bilboard_id , models.DeviceInfo.id )\
+                        .where( models.DeviceInfo.timestamp == timestamp  and models.DeviceInfo.bilboard_id == b_id).count()
+    return response

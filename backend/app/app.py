@@ -66,3 +66,7 @@ async def get_number_devices_by_weekday( weekday : int ):
     if weekday > 7 or weekday < 1:
         return { "error" :"The number of the day of the week can not exceed 7 and be less than 1" }
     return await DeviceInfo.get_number_devices_by_weekday(weekday=weekday)
+
+@app.get("/get_bilboard_stat_by_timestamp")
+async def get_bilboard_stat_by_timestamp( timestamp : int ):
+    return await DeviceInfo.get_number_devices_by_timestamp(timestamp)
