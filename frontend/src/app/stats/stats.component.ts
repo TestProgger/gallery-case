@@ -84,11 +84,11 @@ export class StatsComponent implements OnInit {
     },
 
     title: {
-        text: 'Primary desktop/laptop screen readers'
+        text: 'Круговая диаграма'
     },
 
     subtitle: {
-        text: 'Source: WebAIM. Click on point to visit official website'
+        text: 'Описание'
     },
 
     tooltip: {

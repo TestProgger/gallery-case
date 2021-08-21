@@ -1,9 +1,9 @@
 <div id="main-content">
     <p><b>Статистика:</b></p>
     <br>
-    <label for="date-stat">Дата:</label>
+    <label for="date-stat" class="label">Дата:</label>
     <input id="date-stat" type="date">
-    <label for="board">Билборд:</label>
+    <label for="board" class="label">Название билборда:</label>
     <select id="board">
         <option value="NVNVS005BPLS">NVS005BPL</option>
         <option value="NVS002APL">NVS002APL</option>
@@ -25,7 +25,8 @@
         <option value="NVS071APL">NVS071APL</option>
         <option value="NVS201ASS">NVS201ASS</option>
     </select>
-    <button class="btn btn-primary" (click)="add()">Показать</button>
+    <br>
+    <button class="btn btn-primary mt-2" (click)="add()">Показать</button>
 
     <div [chart]="chart"></div>
     <div [chart]="chart1"></div>
