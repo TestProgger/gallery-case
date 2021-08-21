@@ -1,35 +1,33 @@
 <div id="main-content">
-    <p>Статистика графики и т д</p>
+    <p><b>Статистика:</b></p>
     <br>
-    <p>Кейс:</p>
-    <p>Разработка программного решения оптимального
-    планирования рекламных кампаний на цифровых
-    билбордах на основе данных wifi-аналитики</p>
-    <b>Big Data</b>
-    <br><br>
-    <p>ОПИСАНИЕ КЕЙСА</p>
-    <ol>
-      <li>Объем уличного трафика меняется в зависимости от месяца (например, в декабре 10-балльные пробки в
-      отличие от июля), дней недели и часовых интервалов внутри суток (утро и вечер более загружены, чем день и
-      ночь).</li>
-  
-      <li>На момент планирования рекламной кампании, объем доступного количества показов на разных экранах может
-      быть разным. Например, на экране А рекламодатель может выходить каждый час по 36 раз в час, а на экране Б
-      может выходить только 18 раз в час (при требуемых 36), так как все остальные показы уже заняты другими
-      рекламными кампаниями.</li>
-  
-      <li>На каждый день кампании должен быть сформирован свой план по ОТS с учетом факторов, указанных в п.1 и п.2.
-      При этом, если план за день не выполняется, образовавшаяся задолженность должна автоматически
-      распределяться на все оставшиеся дни рекламной кампании (то есть должен происходить автоматический
-      пересчет плана).</li>
-  
-      <li>Целевое количество рекламных контактов должно быть по возможности равномерно распределено в течение
-      всего заданного периода рекламной кампании и выбранного часового интервала внутри каждого дня.</li>
-      <li>Например, если рекламодатель хочет набрать 10 000 рекламных контактов с 12.00 до 18.00 в понедельник, он
-      набирает эти контакты в течение всего выбранного часового интервала, несмотря на то, что он может набрать
-      эти контакты за первый час (то есть происходит «растягивание» нужного количества рекламных контактов на
-      заданный период).</li>
-    </ol>
-    <button (click)="add()">Add Point!</button>
+    <label for="date-stat">Дата:</label>
+    <input id="date-stat" type="date">
+    <label for="board">Билборд:</label>
+    <select id="board">
+        <option value="NVNVS005BPLS">NVS005BPL</option>
+        <option value="NVS002APL">NVS002APL</option>
+        <option value="NVS006BPL">NVS006BPL</option>
+        <option value="NVS011APL">NVS011APL</option>
+        <option value="NVS015APL">NVS015APL</option>
+        <option value="NVS024BPL">NVS024BPL</option>
+        <option value="NVS025APL">NVS025APL</option>
+        <option value="NVS031APL">NVS031APL</option>
+        <option value="NVS032APL">NVS032APL</option>
+        <option value="NVS034APL">NVS034APL</option>
+        <option value="NVS036APL">NVS036APL</option>
+        <option value="NVS037APL">NVS037APL</option>
+        <option value="NVS047APL">NVS047APL</option>
+        <option value="NVS053APL">NVS053APL</option>
+        <option value="NVS054AP">NVS054APL</option>
+        <option value="NVS055APL">NVS055APL</option>
+        <option value="NVS058APL">NVS058APL</option>
+        <option value="NVS071APL">NVS071APL</option>
+        <option value="NVS201ASS">NVS201ASS</option>
+    </select>
+    <button class="btn btn-primary" (click)="add()">Показать</button>
+
     <div [chart]="chart"></div>
+    <div [chart]="chart1"></div>
+
 </div>

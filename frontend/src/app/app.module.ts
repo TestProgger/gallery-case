@@ -19,7 +19,7 @@ import { ChartModule } from 'angular-highcharts';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ChartModule
+    ChartModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
