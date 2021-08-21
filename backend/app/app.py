@@ -99,9 +99,9 @@ async def calc_ad_imr(data: CalcAdImpr):
     for day in range(6, 7 + 1):
         __tmp = bilboard_stat_by_weekday[day]
         sorted_stat = sorted(list(__tmp.items()), key=lambda i: i[1])
-        min_watches = sorted_stat[0:12]
-        med_watches = sorted_stat[12:20]
-        max_watches = sorted_stat[20:]
+        min_watches = list(  map( lambda ss: ss[0] , sorted_stat[0:12]))
+        med_watches = list(  map( lambda ss: ss[0] , sorted_stat[12:20]))
+        max_watches = list(  map( lambda ss: ss[0] , sorted_stat[20:]))
 
         for hour in range(0, 23 + 1):
             if hour in WORKLOAD_HOURS_WEEKENDS["MAX"]:
