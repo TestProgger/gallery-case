@@ -47,6 +47,8 @@ async def get_data_by_bilboard_id(bilboard_id : int , limit : int  =  100 , offs
 
 @app.get("/get_data_by_weekday")
 async def get_data_by_day_week(weekday : int , limit : int = 100 ,  offset: int = 0 ):
+    if weekday > 7 or weekday < 1:
+        return { "error" :"The number of the day of the week can not exceed 7 and be less than 1" }
     return await DeviceInfo.get_devices_by_weekday(weekday=weekday ,limit = limit , offset = offset  )
 
 
