@@ -1,4 +1,5 @@
 import asyncio
+from enum import unique
 from peewee import DateTimeField, ForeignKeyField, ManyToManyField, Model  , AutoField , CharField
 from peewee_async import Manager ,  PooledPostgresqlDatabase
 
@@ -34,6 +35,11 @@ class ActivityType(BaseModel):
         table_name = "activity_type"
 
 
+class DeviceAddress(BaseModel):
+    id =  AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
+    address = CharField(null = False , unique=True , max_length=512 , column_name  = "device_address" , verbose_name  = "device_address")
+    deice = ForeignKeyField(DeviceInfo , backref="adress")
+
 class OUI(BaseModel):
     id = AutoField(null = False , unique=True , primary_key=True , column_name = "id" , verbose_name = "id")
     oui = CharField(null = False , unique=False,  max_length=10  , column_name = "oui" , verbose_name = "oui")
@@ -45,4 +51,4 @@ class OUI(BaseModel):
 VendorToActivityType = ActivityType.vendors.get_through_model()
 
 database.connect()
-database.create_tables([ DeviceInfo , Vendor , ActivityType , OUI , VendorToActivityType ])
+database.create_tables([ DeviceInfo , Vendor , ActivityType , OUI , DeviceAddress ,VendorToActivityType ])

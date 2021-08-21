@@ -26,5 +26,5 @@ async def get_all() -> List[models.DeviceInfo]:
 async def from_parquet(path_to_parquet : str) -> bool:
     data_list = assistants.pqt_to_list(path_to_parquet)
     for data in data_list:
-        create( CreateT( mac = data["Mac"] , timestamp = data["AddedOnDate"]) )
+        await create( CreateT( mac = data["Mac"] , timestamp = data["AddedOnDate"]) )
     return True
