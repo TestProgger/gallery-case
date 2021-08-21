@@ -5,30 +5,35 @@
     <input id="date-stat" type="date">
     <label for="board" class="label">Название билборда:</label>
     <select id="board">
-        <option value="NVNVS005BPLS">NVS005BPL</option>
-        <option value="NVS002APL">NVS002APL</option>
-        <option value="NVS006BPL">NVS006BPL</option>
-        <option value="NVS011APL">NVS011APL</option>
-        <option value="NVS015APL">NVS015APL</option>
-        <option value="NVS024BPL">NVS024BPL</option>
-        <option value="NVS025APL">NVS025APL</option>
-        <option value="NVS031APL">NVS031APL</option>
-        <option value="NVS032APL">NVS032APL</option>
-        <option value="NVS034APL">NVS034APL</option>
-        <option value="NVS036APL">NVS036APL</option>
-        <option value="NVS037APL">NVS037APL</option>
-        <option value="NVS047APL">NVS047APL</option>
-        <option value="NVS053APL">NVS053APL</option>
-        <option value="NVS054AP">NVS054APL</option>
-        <option value="NVS055APL">NVS055APL</option>
-        <option value="NVS058APL">NVS058APL</option>
-        <option value="NVS071APL">NVS071APL</option>
-        <option value="NVS201ASS">NVS201ASS</option>
+        <option value="1548">NVS005BPL</option>
+        <option value="1549">NVS002APL</option>
+        <option value="1572">NVS006BPL</option>
+        <option value="257">NVS011APL</option>
+        <option value="258">NVS015APL</option>
+        <option value="259">NVS024BPL</option>
+        <option value="260">NVS025APL</option>
+        <option value="261">NVS031APL</option>
+        <option value="262">NVS032APL</option>
+        <option value="263">NVS034APL</option>
+        <option value="264">NVS036APL</option>
+        <option value="267">NVS037APL</option>
+        <option value="265">NVS047APL</option>
+        <option value="266">NVS053APL</option>
+        <option value="2657">NVS054APL</option>
+        <option value="268">NVS055APL</option>
+        <option value="269">NVS058APL</option>
+        <option value="270">NVS071APL</option>
+        <option value="271">NVS201ASS</option>
     </select>
     <br>
     <button class="btn btn-primary mt-2" (click)="add()">Показать</button>
 
     <div [chart]="chart"></div>
-    <div [chart]="chart1"></div>
+
+    <label for="count-shows" class="label">Статистика показов:</label>
+    <input id="count" type="number" placeholder="10000" [(ngModel)]='count'>
+    <br>
+    <button class="btn btn-primary mt-2" (click)="showCount()">Получить</button>
+    <!-- <div [chart]="chart1"></div> -->
 
 </div>

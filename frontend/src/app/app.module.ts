@@ -9,6 +9,9 @@ import { PlanComponent } from './plan/plan.component';
 
 import { ChartModule } from 'angular-highcharts';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +23,8 @@ import { ChartModule } from 'angular-highcharts';
     AppRoutingModule,
     BrowserAnimationsModule,
     ChartModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

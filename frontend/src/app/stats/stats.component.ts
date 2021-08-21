@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'angular-highcharts';
+import { Layout } from '../interfaces/Layout';
+import { GalleryService } from '../services/gallery.service'
 
 @Component({
   selector: 'app-stats',
@@ -8,7 +10,12 @@ import { Chart } from 'angular-highcharts';
 })
 export class StatsComponent implements OnInit {
 
-  constructor() { }
+  public count: number = 1;
+  public layout: Layout[] = [];
+
+  constructor(
+    public galleryService: GalleryService
+  ) { }
 
   ngOnInit(){
   }
@@ -109,6 +116,12 @@ export class StatsComponent implements OnInit {
   // add point to chart serie
   add() {
     this.chart.addPoint(Math.floor(Math.random() * 10));
+  }
+
+  showCount(){
+    this.galleryService.getLayout()
+    .subscribe(layout => this.layout = layout);
+    console.log(this.layout);
   }
 
 }
