@@ -9,3 +9,4 @@ dist/
 *.parquet
 *.json
 !package.json
+!config.json
