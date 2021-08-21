@@ -1,3 +1,5 @@
+from backend.app.assistants import sigmoid
+from random import choice
 from . import models
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -8,8 +10,8 @@ app = FastAPI()
 
 WORKLOAD_HOURS_WEEKDAYS = {
     "MAX": [12, 13, 16, 17, 18, 19],
-    "MED": [7, 8, 9, 10, 11, 14, 15, 20, 21, 22],
-    "MIN": [0, 1, 2, 3, 4, 5, 6, 23]
+    "MED": [7, 8, 9, 10, 11, 14, 15, 20, ],
+    "MIN": [0, 1, 2, 3, 4, 5, 621, 22, 23]
 }
 
 WORKLOAD_HOURS_WEEKENDS = {
@@ -19,6 +21,8 @@ WORKLOAD_HOURS_WEEKENDS = {
 }
 
 MAX_IN_HOUR = 24
+
+CRAZY_CACHE = dict()
 
 # 6 , 9, 18, 24, 30, 36, 42, 48, 54, 60, 66 и 72
 
@@ -53,7 +57,10 @@ async def get_info():
 async def calc_ad_imr(data: CalcAdImpr):
     number_ad_impr = data.number
 
-    response = {
+    if number_ad_impr in CRAZY_CACHE:
+        return CRAZY_CACHE[number_ad_impr]["response"]
+
+    bb_stat = {
         b:
         {d: {h: 0
              for h in range(1, 23 + 1)}
@@ -61,10 +68,10 @@ async def calc_ad_imr(data: CalcAdImpr):
         for b in DeviceInfo.BILBOARD_IDS
     }
 
+     
     bilboard_stat_by_weekday = dict()
     for day in range(1, 7 + 1):
-        bilboard_stat_by_weekday[
-            day] = await DeviceInfo.get_bilboard_stat_by_weekday(weekday=day)
+        bilboard_stat_by_weekday[day] = await DeviceInfo.get_bilboard_stat_by_weekday(weekday=day)
 
     for day in range(1, 5 + 1):
         __tmp = bilboard_stat_by_weekday[day]
@@ -76,25 +83,25 @@ async def calc_ad_imr(data: CalcAdImpr):
         for hour in range(0, 23 + 1):
             if hour in WORKLOAD_HOURS_WEEKDAYS["MAX"]:
                 for bb_id in min_watches:
-                    response[bb_id][day][hour] = 18
+                    bb_stat[bb_id][day][hour] = 18
                 for bb_id in med_watches:
-                    response[bb_id][day][hour] = 24
+                    bb_stat[bb_id][day][hour] = 24
                 for bb_id in max_watches:
-                    response[bb_id][day][hour] = 36
+                    bb_stat[bb_id][day][hour] = 36
             elif hour in WORKLOAD_HOURS_WEEKDAYS["MED"]:
                 for bb_id in min_watches:
-                    response[bb_id][day][hour] = 9
+                    bb_stat[bb_id][day][hour] = 9
                 for bb_id in med_watches:
-                    response[bb_id][day][hour] = 18
+                    bb_stat[bb_id][day][hour] = 18
                 for bb_id in max_watches:
-                    response[bb_id][day][hour] = 24
+                    bb_stat[bb_id][day][hour] = 24
             else:
                 for bb_id in min_watches:
-                    response[bb_id][day][hour] = 6
+                    bb_stat[bb_id][day][hour] = 6
                 for bb_id in med_watches:
-                    response[bb_id][day][hour] = 9
+                    bb_stat[bb_id][day][hour] = 9
                 for bb_id in max_watches:
-                    response[bb_id][day][hour] = 18
+                    bb_stat[bb_id][day][hour] = 18
 
     for day in range(6, 7 + 1):
         __tmp = bilboard_stat_by_weekday[day]
@@ -106,27 +113,51 @@ async def calc_ad_imr(data: CalcAdImpr):
         for hour in range(0, 23 + 1):
             if hour in WORKLOAD_HOURS_WEEKENDS["MAX"]:
                 for bb_id in min_watches:
-                    response[bb_id][day][hour] = 18
+                    bb_stat[bb_id][day][hour] = 18
                 for bb_id in med_watches:
-                    response[bb_id][day][hour] = 24
+                    bb_stat[bb_id][day][hour] = 24
                 for bb_id in max_watches:
-                    response[bb_id][day][hour] = 36
+                    bb_stat[bb_id][day][hour] = 36
             elif hour in WORKLOAD_HOURS_WEEKENDS["MED"]:
                 for bb_id in min_watches:
-                    response[bb_id][day][hour] = 9
+                    bb_stat[bb_id][day][hour] = 9
                 for bb_id in med_watches:
-                    response[bb_id][day][hour] = 18
+                    bb_stat[bb_id][day][hour] = 18
                 for bb_id in max_watches:
-                    response[bb_id][day][hour] = 24
+                    bb_stat[bb_id][day][hour] = 24
             else:
                 for bb_id in min_watches:
-                    response[bb_id][day][hour] = 6
+                    bb_stat[bb_id][day][hour] = 6
                 for bb_id in med_watches:
-                    response[bb_id][day][hour] = 9
+                    bb_stat[bb_id][day][hour] = 9
                 for bb_id in max_watches:
-                    response[bb_id][day][hour] = 18
+                    bb_stat[bb_id][day][hour] = 18
 
-    return response
+    
+
+    # response = list()
+
+
+
+    # while number_ad_impr > 0:
+    #     x = choice( DeviceInfo.BILBOARD_IDS )
+    #     day = choice(list(range(1 , 7+1))) 
+    #     hour = choice(list(range(0 , 23+1)))
+    #     num_ad = bb_stat[x][day][hour]
+    #     number_ad_impr -= num_ad
+    #     response.append( 
+    #         {
+    #             "bilboard_id" : x,
+    #             "day" : day,
+    #             "hour" : hour,
+    #             "numAd" : num_ad 
+    #         }
+    #      )
+
+    # CRAZY_CACHE[number_ad_impr] = { "bb_stat" : bb_stat , "response" : response }
+
+
+    return bb_stat
 
 
 @app.get("/get_data")
