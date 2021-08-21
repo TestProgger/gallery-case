@@ -23,7 +23,6 @@ class DeviceInfo(BaseModel):
     mac = CharField(null = False , unique=False,  max_length=18  , column_name = "mac" , verbose_name = "mac")
     timestamp = DateTimeField(null = False , unique=False, column_name = "timestamp" , verbose_name = "Timestamp")
     vendor = ForeignKeyField(Vendor , backref="catched_devices")
-   # address = ForeignKeyField(DeviceAddress , backref="device")
 
     class Meta:
         table_name = "device_info"
