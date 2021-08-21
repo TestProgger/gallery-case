@@ -29,16 +29,10 @@ async def get_info():
     
     return JSONResponse(content=response)
     
-
-
 @app.post("/calc_ad_imr")
 async def calc_ad_imr( data : CalcAdImpr ):
     number_ad_impr = data.number
     
-
-
-
-
 @app.get("/get_data")
 async def get_data(limit : int  =  100 , offset: int = 0):
     return await DeviceInfo.get_devices(limit=limit , offset=offset)
