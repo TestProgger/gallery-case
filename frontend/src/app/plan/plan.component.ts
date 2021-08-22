@@ -8,6 +8,9 @@ import { Chart } from 'angular-highcharts';
 })
 export class PlanComponent implements OnInit {
 
+  planDate: any = '2021-08-22';
+  visibility = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -80,7 +83,8 @@ export class PlanComponent implements OnInit {
 
   // add point to chart serie
   add() {
-    this.chart.addPoint(Math.floor(Math.random() * 10));
+    // this.chart.addPoint(Math.floor(Math.random() * 10));
+    this.visibility = true;
   }
 
 }

@@ -10,7 +10,7 @@ import { GalleryService } from '../services/gallery.service'
 })
 export class StatsComponent implements OnInit {
 
-  public count: number = 1;
+  public count: number = 10000;
   public layout: Layout[] = [];
 
   constructor(

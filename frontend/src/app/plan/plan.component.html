@@ -1,7 +1,7 @@
 <p><b>Расчет плановых значения для показов рекламы</b></p>
 
 <label for="date-stat" class="label">Дата:</label>
-<input id="date-stat" type="date">
+<input id="date-stat" type="date" [(ngModel)]='planDate'>
 <label for="board" class="label">Название билборда:</label>
 <select id="board">
     <option value="1548">NVS005BPL</option>
@@ -27,7 +27,7 @@
 <br>
 <button class="btn btn-primary mt-2" (click)="add()">Показать</button>
 
-<div [chart]="chart"></div>
+<div [chart]="chart" [style.display]="visibility?'block':'none'" id="a2"></div>
 	
 	
 	
