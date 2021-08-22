@@ -1,6 +1,6 @@
 from typing import List
 from pandas import read_parquet
-
+from math import exp
 
 def pqt_to_list( pqt_filepath : str ) -> List:
     pqt = read_parquet(pqt_filepath , engine="pyarrow")
@@ -16,3 +16,10 @@ def pqt_to_list( pqt_filepath : str ) -> List:
                 } \
                     for id in range( max_id )
             ]
+
+def sigmoid(x):
+    return 1 / (1 + exp(-x))
+
+def hyp_tan(x):
+    return ( exp(2*x) - 1 ) / ( exp( 2*x) + 1 ) 
+

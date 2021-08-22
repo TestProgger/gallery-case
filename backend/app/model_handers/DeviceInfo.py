@@ -1,9 +1,19 @@
 from random import choice
 from typing import List
+from fastapi import responses
 
 from pydantic.schema import model_schema
 from .. import models , assistants
 from . import Vendor 
+
+
+
+BILBOARD_IDS = [
+                1548 , 1549 , 1572 , 257, 258 , 
+                259 , 260 , 261 , 262 , 263 , 
+                264 , 267 , 265 , 266 , 2657 , 
+                268 , 269 , 270 , 271 , 272 , 273 , 333 , 40 , 403
+            ]
 
 
 class CreateT:
@@ -116,3 +126,66 @@ async def get_devices_by_weekday(weekday: int , limit: int = 100 , offset :int =
         devs += [ { "timestamp" : d.timestamp , "mac" : d.mac  , "vendor" : d.vendor , "bilboard_id" : d.bilboard_id}  for d in tmp_d ] 
 
     return devs
+
+async def get_number_devices_by_weekday(weekday: int):
+    timestamps = await get_distinct_timestamps()
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.isocalendar().weekday) == weekday]
+
+    devs = dict()
+    avg = 0
+    for tmp in valid_tmstp:
+        tmp_d = models.DeviceInfo.select( models.DeviceInfo.id )\
+                .where( models.DeviceInfo.timestamp == tmp )\
+                .count()
+        
+        devs[str( tmp )] = tmp_d
+        avg += tmp_d
+    devs["avg"] =  avg // len(valid_tmstp) 
+    return devs
+
+async def get_number_devices_by_month( month : int ):
+    timestamps = await get_distinct_timestamps()
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.timetuple().month) == month]
+
+    devs = dict()
+    avg = 0
+    for tmp in valid_tmstp:
+        tmp_d = models.DeviceInfo.select( models.DeviceInfo.id )\
+                .where( models.DeviceInfo.timestamp == tmp )\
+                .count()
+        
+        devs[str( tmp )] = tmp_d
+        avg += tmp_d
+    devs["avg"] =  avg // len(valid_tmstp) 
+    return devs
+
+
+
+async def get_bilboard_stat_by_timestamp(timestamp : str):
+    
+    response  = dict()
+    for b_id in BILBOARD_IDS:
+        response[b_id] = models.DeviceInfo.select( models.DeviceInfo.id )\
+                        .where( models.DeviceInfo.timestamp == timestamp  and models.DeviceInfo.bilboard_id == b_id).count()
+    return response
+
+async def get_bilboard_stat_by_weekday(weekday : int ):
+    response = dict()
+    timestamps = await get_distinct_timestamps()
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.isocalendar().weekday) == weekday]
+
+    for b_id in BILBOARD_IDS:
+        response[b_id] = models.DeviceInfo.select( models.DeviceInfo.id )\
+                        .where( models.DeviceInfo.timestamp.in_(valid_tmstp)  and models.DeviceInfo.bilboard_id == b_id).count() / len(valid_tmstp)
+    return response
+
+
+async def get_bilboard_stat_by_month(month : int ):
+    response = dict()
+    timestamps = await get_distinct_timestamps()
+    valid_tmstp = [ timestamp for timestamp  in timestamps if int(timestamp.timetuple().month) == month]
+
+    for b_id in BILBOARD_IDS:
+        response[b_id] = models.DeviceInfo.select( models.DeviceInfo.id )\
+                        .where( models.DeviceInfo.timestamp.in_(valid_tmstp)  and models.DeviceInfo.bilboard_id == b_id).count() / len(valid_tmstp)
+    return response
